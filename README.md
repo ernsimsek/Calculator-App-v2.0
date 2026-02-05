@@ -56,12 +56,14 @@ Themes are saved in local storage.
 - Clear history option
 - Notification indicator for new entries
 
-
 ---
 
+### Installation
 
-
-
+Clone the repository:
+```bash
+git clone https://github.com/ernsimsek/Note-App.git
+```
 
 ---
 
