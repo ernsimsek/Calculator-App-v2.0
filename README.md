@@ -64,6 +64,10 @@ Clone the repository:
 ```bash
 git clone https://github.com/ernsimsek/Calculator-App-v2.0.git
 ```
+---
+<img width="1554" height="858" alt="Ekran görüntüsü 2026-02-05 215528" src="https://github.com/user-attachments/assets/e5e73a94-c664-4e39-87d1-208db59bbfd9" />
+
+[Live Demo](https://ernsimsek.github.io/Note-App/)
 
 ---
 
