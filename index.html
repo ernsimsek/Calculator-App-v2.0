@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator 2.0</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4b5efc">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/124/124065.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="nav-item active" data-tab="calculator" title="Calculator">
+                <i class="fa-solid fa-calculator"></i>
+            </div>
+            <div class="nav-item" data-tab="graph" title="Graphing Mode">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div class="nav-item" data-tab="programmer" title="Programmer Mode">
+                <i class="fa-solid fa-code"></i>
+            </div>
+            <div class="nav-item" data-tab="converter" title="Unit Converter">
+                <i class="fa-solid fa-right-left"></i>
+            </div>
+            <div class="nav-item" data-action="toggle-theme" title="Change Theme">
+                <i class="fa-solid fa-palette"></i>
+            </div>
+            <div class="nav-item bottom" data-action="toggle-history" title="History">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="notification-dot" id="history-dot" style="display:none;"></span>
+            </div>
+        </nav>
+
+        <main class="content-area">
+
+            <div id="calculator-tab" class="tab-content active">
+                <div class="display-container">
+                    <div class="voice-indicator hidden" id="voice-indicator">
+                        <i class="fa-solid fa-microphone"></i> Listening...
+                    </div>
+                    <div class="mode-toggle" id="mode-toggle" title="Switch RAD/DEG">RAD</div>
+                    <div class="expression" id="expression"></div>
+                    <div class="result" id="result">0</div>
+                </div>
+
+                <div class="keyboard">
+                    <div class="keys-scientific">
+                        <button class="btn func" data-action="sin">sin</button>
+                        <button class="btn func" data-action="cos">cos</button>
+                        <button class="btn func" data-action="tan">tan</button>
+                        <button class="btn func" data-action="log">log</button>
+                        <button class="btn func" data-action="ln">ln</button>
+                        <button class="btn func" data-action="(">(</button>
+                        <button class="btn func" data-action=")">)</button>
+                        <button class="btn func" data-action="pow">x^y</button>
+                        <button class="btn func" data-action="sqrt">√</button>
+                        <button class="btn func" data-action="fact">n!</button>
+                        <button class="btn func" data-action="pi">π</button>
+                        <button class="btn func" data-action="e">e</button>
+                    </div>
+
+                    <div class="keys-standard">
+                        <button class="btn action red" data-action="clear">AC</button>
+                        <button class="btn action" data-action="backspace"><i
+                                class="fa-solid fa-backspace"></i></button>
+                        <button class="btn action" data-action="mod" data-value="%">%</button>
+                        <button class="btn operator" data-action="division" data-value="/">÷</button>
+
+                        <button class="btn number" data-value="7">7</button>
+                        <button class="btn number" data-value="8">8</button>
+                        <button class="btn number" data-value="9">9</button>
+                        <button class="btn operator" data-action="multiplication" data-value="*">×</button>
+
+                        <button class="btn number" data-value="4">4</button>
+                        <button class="btn number" data-value="5">5</button>
+                        <button class="btn number" data-value="6">6</button>
+                        <button class="btn operator" data-action="subtraction" data-value="-">−</button>
+
+                        <button class="btn number" data-value="1">1</button>
+                        <button class="btn number" data-value="2">2</button>
+                        <button class="btn number" data-value="3">3</button>
+                        <button class="btn operator" data-action="addition" data-value="+">+</button>
+
+                        <button class="btn action" data-action="voice-start"><i
+                                class="fa-solid fa-microphone"></i></button>
+                        <button class="btn number" data-value="0">0</button>
+                        <button class="btn number" data-action="decimal" data-value=".">.</button>
+                        <button class="btn special" data-action="calculate">=</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="graph-tab" class="tab-content">
+                <h2 class="section-title">Graphing Calculator</h2>
+                <div class="graph-controls">
+                    <div class="input-group">
+                        <span class="input-prefix">y =</span>
+                        <input type="text" id="graph-func" placeholder="e.g. sin(x) or x^2">
+                        <button id="btn-plot">Plot</button>
+                    </div>
+                    <div class="zoom-controls">
+                        <button id="btn-zoom-in" title="Zoom In"><i
+                                class="fa-solid fa-magnifying-glass-plus"></i></button>
+                        <button id="btn-zoom-out" title="Zoom Out"><i
+                                class="fa-solid fa-magnifying-glass-minus"></i></button>
+                        <button id="btn-reset-view" title="Reset"><i class="fa-solid fa-compress"></i></button>
+                    </div>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="graph-canvas"></canvas>
+                </div>
+            </div>
+
+
+            <div id="programmer-tab" class="tab-content">
+                <div class="prog-screen" id="prog-expression">0</div>
+                <div class="prog-display">
+                    <div class="base-row active" data-base="16">
+                        <span class="base-label">HEX</span>
+                        <span class="base-value" id="prog-hex">0</span>
+                    </div>
+                    <div class="base-row" data-base="10">
+                        <span class="base-label">DEC</span>
+                        <span class="base-value" id="prog-dec">0</span>
+                    </div>
+                    <div class="base-row" data-base="8">
+                        <span class="base-label">OCT</span>
+                        <span class="base-value" id="prog-oct">0</span>
+                    </div>
+                    <div class="base-row" data-base="2">
+                        <span class="base-label">BIN</span>
+                        <span class="base-value" id="prog-bin">0</span>
+                    </div>
+                </div>
+
+                <div class="prog-keyboard">
+                    <button class="btn func" data-action="and">AND</button>
+                    <button class="btn func" data-action="or">OR</button>
+                    <button class="btn func" data-action="xor">XOR</button>
+                    <button class="btn func" data-action="not">NOT</button>
+                    <button class="btn action red" data-action="clear" style="grid-column: span 3;">AC</button>
+
+                    <button class="btn hex-btn" data-value="A">A</button>
+                    <button class="btn func" data-action="lsh">&lt;&lt;</button>
+                    <button class="btn func" data-action="rsh">&gt;&gt;</button>
+                    <button class="btn number" data-value="7">7</button>
+                    <button class="btn number" data-value="8">8</button>
+                    <button class="btn number" data-value="9">9</button>
+                    <button class="btn operator" data-action="division" data-value="/">÷</button>
+
+                    <button class="btn hex-btn" data-value="B">B</button>
+                    <button class="btn hex-btn" data-value="C">C</button>
+                    <button class="btn hex-btn" data-value="D">D</button>
+                    <button class="btn number" data-value="4">4</button>
+                    <button class="btn number" data-value="5">5</button>
+                    <button class="btn number" data-value="6">6</button>
+                    <button class="btn operator" data-action="multiplication" data-value="*">×</button>
+
+                    <button class="btn hex-btn" data-value="E">E</button>
+                    <button class="btn hex-btn" data-value="F">F</button>
+                    <button class="btn number" data-value="0">0</button>
+                    <button class="btn number" data-value="1">1</button>
+                    <button class="btn number" data-value="2">2</button>
+                    <button class="btn number" data-value="3">3</button>
+                    <button class="btn operator" data-action="subtraction" data-value="-">−</button>
+
+                    <button class="btn func" data-action="(">(</button>
+                    <button class="btn func" data-action=")">)</button>
+                    <button class="btn action" data-action="backspace"><i class="fa-solid fa-backspace"></i></button>
+                    <button class="btn special" data-action="calculate" style="grid-column: span 3;">=</button>
+                    <button class="btn operator" data-action="addition" data-value="+">+</button>
+                </div>
+            </div>
+
+            <div id="converter-tab" class="tab-content">
+                <h2 class="section-title">Unit Converter</h2>
+                <div class="converter-types">
+                    <button class="type-btn active" data-type="length">Length</button>
+                    <button class="type-btn" data-type="weight">Weight</button>
+                    <button class="type-btn" data-type="temperature">Temp</button>
+                    <button class="type-btn" data-type="data">Data</button>
+                    <button class="type-btn" data-type="currency">Currency</button>
+                </div>
+
+                <div class="converter-box">
+                    <div class="input-group">
+                        <input type="number" id="convert-from-val" value="1">
+                        <select id="convert-from-unit"></select>
+                    </div>
+                    <div class="icon-exchange">
+                        <i class="fa-solid fa-arrow-down shadow-icon"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="convert-to-val" readonly>
+                        <select id="convert-to-unit"></select>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <aside class="history-panel collapsed" id="history-panel">
+            <div class="history-header">
+                <h3>History</h3>
+                <div class="history-actions">
+                    <button id="export-history" title="Export to File"><i class="fa-solid fa-file-export"></i></button>
+                    <button id="clear-history" title="Clear History"><i class="fa-solid fa-trash"></i></button>
+                    <button id="close-history"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <ul id="history-list">
+                <li class="empty-state">No history yet</li>
+            </ul>
+        </aside>
+
+        <div id="theme-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Select Theme</h3>
+                <div class="theme-grid">
+                    <button class="theme-option" data-theme="dark"
+                        style="background: #1e1e1e; color: #fff;">Dark</button>
+                    <button class="theme-option" data-theme="light"
+                        style="background: #f0f2f5; color: #333;">Light</button>
+                    <button class="theme-option" data-theme="neon"
+                        style="background: #0f0c29; color: #00f260;">Cyberpunk</button>
+                    <button class="theme-option" data-theme="pastel"
+                        style="background: #ff9a9e; color: #fff;">Pastel</button>
+                </div>
+                <button id="close-modal" class="btn-close">Close</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
