@@ -62,7 +62,7 @@ Themes are saved in local storage.
 
 Clone the repository:
 ```bash
-git clone https://github.com/ernsimsek/Note-App.git
+git clone https://github.com/ernsimsek/Calculator-App-v2.0.git
 ```
 
 ---
